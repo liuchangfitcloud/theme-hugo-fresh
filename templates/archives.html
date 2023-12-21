@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{modules/layout :: html(content = ~{::content})}">
+<th:block th:fragment="content">
+  <div class="content">
+    <div>
+      <h2 style="display: flex;font-size: 1.5rem;">
+        <i class="iconify iconify-ri-archive-line" style="margin: auto .125rem auto 0;"></i> 文章归档
+      </h2>
+      <div class="archives-container">
+        <th:block th:each="archive : ${archives.items}">
+          <h2>
+            <i class="remixicon-map-pin-time-line"></i>
+            <th:block th:text="${archive.year}"></th:block>
+          </h2>
+          <th:block th:each="month : ${archive.months}">
+            <div class="month-item">
+              <div class="month-title">
+                <span th:text="${month.month} + '月'"></span>
+              </div>
+              <div style="display:flex;flex-direction: column;">
+                <div th:each="post : ${month.posts}" style="padding: .5rem 0;display: flex;">
+                  <div th:text="${#dates.format(post.spec.publishTime,'yyyy-MM-dd HH:mm:ss')}" style="padding: 0 1rem 0 0;font-size: 0.75rem;margin: auto 0;"></div>
+                  <a th:href="@{${post.status.permalink}}">
+                    <h2 class="post-title" th:text="${post.spec.title}"></h2>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </th:block>
+        </th:block>
+      </div>
+  
+      <div>
+        <div th:if="${archives.hasPrevious()} or ${archives.hasNext()}">
+          <a th:if="${archives.hasPrevious()}" th:href="@{${archives.prevUrl}}">
+            <i class="iconify iconify-ri-arrow-left-line"></i>
+            上一页
+          </a>
+          <a th:if="${archives.hasNext()}" th:href="@{${archives.nextUrl}}">
+            下一页
+            <i class="iconify iconify-ri-arrow-right-line"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+</html>

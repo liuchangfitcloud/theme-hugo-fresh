@@ -1,14 +1,166 @@
 <!DOCTYPE html>
 <html lang="en" th:fragment="html (content)">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:text="${site.title}"></title>
     <link rel="stylesheet" th:href="@{/assets/dist/style.css}" href="./assets/dist/style.css" />
     <script th:src="@{/assets/dist/main.iife.js}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${site.title}"></title>
+    <link th:if="${not #strings.isEmpty(site.logo)}" th:href="@{${site.logo}}" rel="icon">
+    <link th:if="${#strings.isEmpty(site.logo)}" th:href="@{/assets/images/favicon.png}" rel="icon">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/dist/style.css}" href="assets/dist/style.css">
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/css/icons.css}" href="assets/css/icons.css"> -->
+    <script th:src="@{/assets/dist/main.iife.js}"></script>
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/js/fresh.js}"></script>
+    <script th:src="@{/assets/js/jquery.panelslider.min.js}"></script>
+    <!-- <script th:src="@{/assets/js/feather-icons.js}"></script> -->
+    <script th:src="@{/assets/js/modernizr.min.js}"></script>
   </head>
-  <body th:style="'background-color: '+${theme.config.styles.background_color}">
+  <body>
+    <div id="preloader">
+      <div id="status"></div>
+    </div>
+    <!-- 菜单 -->
+    <div>
+      <nav class="navbar is-fresh is-transparent no-shadow" role="navigation" aria-label="main navigation">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+              <!-- <img th:unless="${#strings.isEmpty(site.logo)}" th:src="${site.logo}" alt="" width="112" height="28">
+              <span th:if="${#strings.isEmpty(site.logo)}" class="logo-text" th:text="${site.title}"></span> -->
+              <span class="logo-text" th:text="${site.title}"></span>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+          <div id="navbar-menu" class="navbar-menu is-static">
+            <div class="navbar-end" th:with="menu = ${menuFinder.getPrimary()}">
+              <div class="navbar-item has-dropdown is-hoverable" th:with="menuItems = ${menu.menuItems}">
+                <th:block th:each="menuItem : ${menuItems}">
+                  <a th:if="${#arrays.isEmpty(menuItem.spec.children)}" th:href="@{${menuItem.status.href}}" class="navbar-item is-secondary"
+                    th:text="${menuItem.status.displayName}" th:target="${menuItem.spec.target?.value}">
+                  </a>
+                  <a th:unless="${#arrays.isEmpty(menuItem.spec.children)}" class="navbar-link" th:text="${menuItem.status.displayName}"></a>
+                  <div th:unless="${#arrays.isEmpty(menuItem.spec.children)}" th:with="childMenus = ${menuItem.children}" class="navbar-dropdown">
+                    <th:block th:each="childItem : ${childMenus}">
+                      <a th:href="@{${childItem.status.href}}" th:text="${childItem.status.displayName}"
+                        th:target="${childItem.spec.target?.value}" class="navbar-item">
+                      </a>
+                    </th:block>
+                  </div>
+                </th:block>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <nav id="navbar-clone" class="navbar is-fresh is-transparent" role="navigation" aria-label="main navigation">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+              <!-- <img th:unless="${#strings.isEmpty(site.logo)}" th:src="${site.logo}" alt="" width="112" height="28">
+              <span th:if="${#strings.isEmpty(site.logo)}" class="logo-text" th:text="${site.title}"></span> -->
+              <span class="logo-text" th:text="${site.title}"></span>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="cloned-navbar-menu">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+    
+          <div id="cloned-navbar-menu" class="navbar-menu is-fixed">
+            <div class="navbar-end" th:with="menu = ${menuFinder.getPrimary()}">
+              <div class="navbar-item has-dropdown is-hoverable" th:with="menuItems = ${menu.menuItems}">
+                <th:block th:each="menuItem : ${menuItems}">
+                  <a th:if="${#arrays.isEmpty(menuItem.spec.children)}" th:href="@{${menuItem.status.href}}"
+                    class="navbar-item is-secondary" th:text="${menuItem.status.displayName}"
+                    th:target="${menuItem.spec.target?.value}">
+                  </a>
+                  <a th:unless="${#arrays.isEmpty(menuItem.spec.children)}" class="navbar-link"
+                    th:text="${menuItem.status.displayName}"></a>
+                  <div th:unless="${#arrays.isEmpty(menuItem.spec.children)}" th:with="childMenus = ${menuItem.children}"
+                    class="navbar-dropdown">
+                    <th:block th:each="childItem : ${childMenus}">
+                      <a th:href="@{${childItem.status.href}}" th:text="${childItem.status.displayName}"
+                        th:target="${childItem.spec.target?.value}" class="navbar-item">
+                      </a>
+                    </th:block>
+                  </div>
+                </th:block>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- 内容 -->
     <th:block th:replace="${content}" />
+    <!-- 底部 -->
+    <footer class="footer footer-dark">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <div class="footer-logo">
+              <img th:unless="${#strings.isEmpty(site.logo)}" th:src="${site.logo}">
+              <span th:if="${#strings.isEmpty(site.logo)}" class="logo-text" th:text="${site.title}"></span>
+            </div>
+          </div>
+          <th:block th:with="menuList = ${theme.config.bottom.menuGroup.menuList}">
+            <th:block th:unless="${#lists.isEmpty(menuList)}">
+              <div class="column" th:each="menuName : ${menuList}">
+                <div class="footer-column" th:with="menu = ${menuFinder.getByName(menuName)}">
+                  <div class="footer-header">
+                    <h3 th:text="${menu.spec.displayName}"></h3>
+                  </div>
+                  <th:block th:unless="${#lists.isEmpty(menu.menuItems)}">
+                    <ul class="link-list" th:with="menuItems = ${menu.menuItems}">
+                      <li th:each="item : ${menuItems}">
+                        <a th:href="${item.status.href}" th:target="${item.spec.target?.value}" th:text="${item.spec.displayName}">Halo</a>
+                      </li>
+                    </ul>
+                  </th:block>
+                </div>
+              </div>
+            </th:block>
+          </th:block>
+          <div class="column">
+            <div class="footer-column">
+              <div class="footer-header">
+                <h3 th:text="${theme.config.bottom.socialGroup.title}"></h3>
+                <nav class="level is-mobile" th:unless="${#lists.isEmpty(theme.config.bottom.socialGroup.socialList)}">
+                  <div class="level-left" th:with="socialList = ${theme.config.bottom.socialGroup.socialList}">
+                    <th:block th:each="item : ${socialList}">
+                      <a class="level-item" th:href="${item.href}" target="_blank">
+                        <span th:class="'icon iconify ' + ${item.type}"></span>
+                      </a>
+                    </th:block>
+                  </div>
+                </nav>
+                <span class="copyright">
+                  ©
+                  2023
+                  <a href="/">杰事纪</a> Powered by
+                  <a href="https://halo.run" target="_blank">Halo</a> Theme
+                  <a href="https://github.com/liuchangfitcloud/theme-hugo-fresh" target="_blank">Hugo Fresh</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- 回到顶部 -->
+    <div id="backtotop">
+      <a href="#">
+        <div class="top-icon">
+          <i class="iconify iconify-top"></i>
+        </div>
+      </a>
+  </div>
   </body>
 </html>

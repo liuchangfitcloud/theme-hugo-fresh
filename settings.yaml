@@ -1,13 +1,276 @@
 apiVersion: v1alpha1
 kind: Setting
 metadata:
-  name: theme-vite-starter-setting
+  name: theme-hugo-fresh-setting
 spec:
   forms:
-    - group: styles
-      label: 样式
+    - group: home
+      label: 首页
       formSchema:
-        - $formkit: color
-          name: background_color
-          label: 背景颜色
-          value: "#f2f2f2"
+        - $formkit: checkbox
+          name: heroShow
+          id: heroShow
+          key: heroShow
+          label: 显示 Hero 块
+          value: true
+        - $formkit: group
+          name: heroAttribute
+          if: "$get(heroShow).value"
+          label: Hero 块内容
+          children: 
+            - $formkit: text
+              name: title
+              label: 标题
+            - $formkit: textarea
+              name: desc
+              label: 描述
+            - $formkit: checkbox
+              name: showBtn
+              id: hero_showBtn
+              key: hero_showBtn
+              label: 显示按钮
+            - $formkit: text
+              name: btnName
+              if: "$get(hero_showBtn).value"
+              label: 开始
+            - $formkit: text
+              if: "$get(hero_showBtn).value"
+              name: btnHref
+              label: 跳转路径
+            - $formkit: attachment
+              accepts:
+                - "image/*"
+              name: bgImg
+              label: hero图片
+            - $formkit: checkbox
+              name: showFoot
+              id: hero_showFoot
+              key: hero_showFoot
+              label: 显示页脚
+            - $formkit: repeater
+              name: footList
+              if: "$get(hero_showFoot).value"
+              label: 页脚集合
+              children: 
+                - $formkit: attachment
+                  name: icon
+                  accepts:
+                    - "image/svg"
+                  label: 图标<支持svg>
+                - $formkit: text
+                  name: href
+                  label: 链接      
+          value: {title: "Hero 标题",desc: "这是一段描述文字",showBtn: true,btnName: "快速开始",btnHref: "/",bgImg: "/themes/theme-hugo-fresh/assets/images/illustrations/worker.svg",showFoot: true,footList: [{icon: "themes/theme-hugo-fresh/assets/images/logos/clients/systek.svg", href: "/"},{icon: "themes/theme-hugo-fresh/assets/images/logos/clients/tribe.svg", href: "/"},{icon: "themes/theme-hugo-fresh/assets/images/logos/clients/kromo.svg", href: "/"},{icon: "themes/theme-hugo-fresh/assets/images/logos/clients/infinite.svg", href: "/"},{icon: "themes/theme-hugo-fresh/assets/images/logos/clients/gutwork.svg", href: "/"}] } 
+        - $formkit: checkbox
+          name: featureShow
+          id: featureShow
+          key: featureShow
+          label: 显示特性块
+          value: true
+        - $formkit: group
+          name: featureAttribute
+          id: featureAttribute
+          key: featureAttribute
+          if: "$get(featureShow).value"
+          label: 特性块内容
+          children:
+            - $formkit: text
+              name: title
+              label: 标题
+            - $formkit: textarea
+              name: desc
+              label: 描述
+            - $formkit: repeater
+              name: featureList
+              label: 特性集合
+              children: 
+                - $formkit: text
+                  name: title
+                  label: 标题
+                - $formkit: attachment
+                  accepts:
+                    - "image/svg"
+                  name: icon
+                  label: 图标svg
+                - $formkit: textarea
+                  name: desc
+                  label: 描述
+                - $formkit: text
+                  name: btnName
+                  label: 按钮名称
+                - $formkit: text
+                  name: btnHref
+                  label: 跳转链接
+          value: {title: "产品特性",desc: "特性的描述细节",featureList: [{title: "跨平台",icon: "/themes/theme-hugo-fresh/assets/images/illustrations/icons/mouse-globe.svg",desc: "这是一段描述的内容",btnName: "免费试用",btnHref: "/"},{title: "云集成",icon: "/themes/theme-hugo-fresh/assets/images/illustrations/icons/laptop-cloud.svg",desc: "这是一段描述的内容",btnName: "免费试用",btnHref: "/"},{title: "热插拔",icon: "/themes/theme-hugo-fresh/assets/images/illustrations/icons/plug-cloud.svg",desc: "这是一段描述的内容",btnName: "立即购买",btnHref: "/"}]}              
+        - $formkit: checkbox
+          name: advantageShow
+          id: advantageShow
+          key: advantageShow
+          label: 显示优势块
+          value: true
+        - $formkit: group
+          name: advantageAttribute
+          if: "$get(advantageShow).value"
+          id: advantageAttribute
+          key: advantageAttribute
+          label: 优势块内容
+          children:
+            - $formkit: text
+              name: title
+              label: 标题
+            - $formkit: textarea
+              name: desc
+              label: 描述
+            - $formkit: repeater
+              name: advantageList
+              label: 优势集合
+              children:
+                - $formkit: text
+                  name: title
+                  label: 标题
+                - $formkit: attachment
+                  name: icon
+                  accepts:
+                    - "image/svg"
+                  label: 图标svg  
+                - $formkit: textarea
+                  name: desc
+                  label: 描述
+          value: {title: "我们的优势",desc: "这是一段描述字段",advantageList: [{title: "多端兼容",desc: "这是一段描述字段",icon: "/themes/theme-hugo-fresh/assets/images/illustrations/icons/laptop-globe.svg"},{title: "实时备份",desc: "这是一段描述字段",icon: "/themes/theme-hugo-fresh/assets/images/illustrations/icons/doc-sync.svg"},{title: "移动端反馈",desc: "这是一段描述字段",icon: "/themes/theme-hugo-fresh/assets/images/illustrations/icons/mobile-feed.svg"}]}
+        - $formkit: checkbox
+          name: datablockShow
+          id: datablockShow
+          key: datablockShow
+          label: 显示数据块
+          value: true
+        - $formkit: group
+          name: datablockAttribute
+          if: "$get(datablockShow).value"
+          label: 数据块内容
+          children:
+            - $formkit: attachment
+              name: icon
+              accepts:
+                - "image/png"
+              label: 数据图
+            - $formkit: text
+              name: title
+              label: 标题
+            - $formkit: textarea
+              name: desc
+              label: 描述
+            - $formkit: text
+              name: btnName
+              label: 按钮
+            - $formkit: text
+              name: btnHref
+              label: 跳转链接
+          value: {icon: "/themes/theme-hugo-fresh/assets/images/illustrations/mockups/app-mockup.png",title: "极致性能",desc: "这是一段描述文字",btnName: "产品介绍",btnHref: "/"}            
+        - $formkit: checkbox
+          name: commentShow
+          id: commentShow
+          key: commentShow
+          label: 显示人物块
+          value: true
+        - $formkit: group
+          name: commentAttribute
+          label: 人物块内容
+          if: "$get(commentShow).value"
+          children:
+            - $formkit: text
+              name: title
+              label: 标题
+            - $formkit: textarea
+              name: desc
+              label: 描述
+            - $formkit: repeater
+              name: commentList
+              label: 人物集合
+              children:
+                - $formkit: textarea
+                  name: comment
+                  label: 评论
+                - $formkit: text
+                  name: name
+                  label: 姓名
+                - $formkit: text
+                  name: position
+                  label: 职位
+                - $formkit: attachment
+                  accepts:
+                    - "image/*"
+                  name: avatar
+                  label: 头像
+          value: {title: "大家的评价",desc: "这是一段文字描述",commentList: [{comment: "产品很好",name: "小王",position: "CEO",avatar: "/themes/theme-hugo-fresh/assets/images/illustrations/faces/1.png"},{comment: "体验很好",name: "小刘",position: "工程师",avatar: "/themes/theme-hugo-fresh/assets/images/illustrations/faces/2.png"},{comment: "这是一款优秀的产品",name: "小张",position: "CTO",avatar: "/themes/theme-hugo-fresh/assets/images/illustrations/faces/3.png"}]}
+        - $formkit: checkbox
+          name: contactShow
+          id: contactShow
+          key: contactShow
+          label: 显示联系表单
+          value: false
+        - $formkit: group
+          name: contactAttribute
+          label: 联系表单内容
+          if: "$get(contactShow).value"
+          children:
+            - $formkit: text
+              name: contactId
+              label: 表单ID
+    - group: bottom
+      label: 底部
+      formSchema:
+        - $formkit: group
+          name: menuGroup
+          label: 菜单内容
+          children:
+            - $formkit: menuCheckbox
+              name: menuList
+              label: 菜单列表
+          value: {menuList: []}
+        - $formkit: group
+          name: socialGroup
+          label: 社交媒体
+          children:
+            - $formkit: text
+              name: title
+              label: 标题
+            - $formkit: repeater
+              name: socialList
+              label: 社交媒体列表
+              children: 
+                - $formkit: select
+                  name: type
+                  label: 类型
+                  options: 
+                    - label: GitHub
+                      value: iconify-github
+                    - label: 脸书
+                      value: iconify-facebook
+                    - label: 知乎
+                      value: iconify-zhihu
+                    - label: 微博
+                      value: iconify-weibo
+                    - label: 电报
+                      value: iconify-telegram
+                    - label: 抖音
+                      value: iconify-tiktok
+                    - label: Slack
+                      value: iconify-slack
+                    - label: 推特
+                      value: iconify-twitter
+                - $formkit: text
+                  name: href
+                  label: 链接           
+          value: {title: '联系我们',socialList: [{type: 'iconify-github',href: "/"},{type: 'iconify-facebook',href: "/"},{type: 'iconify-zhihu',href: "/"},{type: 'iconify-weibo',href: "/"},{type: 'iconify-tiktok',href: "/"},{type: 'iconify-telegram',href: "/"}]}
+        - $formkit: checkbox
+          name: copyrightShow
+          id: copyrightShow
+          key: copyrightShow
+          label: 显示版权
+          value: true
+        - $formkit: code
+          name: copyright
+          if: "$get(copyrightShow).value"
+          label: 版权代码
+          language: html
+          value: '<span class="copyright">©2023<a href="/">杰事纪</a>Powered by<a href="https://halo.run"target="_blank">Halo</a>Theme<a href="https://github.com/liuchangfitcloud/theme-hugo-fresh"target="_blank">Hugo Fresh</a></span>'

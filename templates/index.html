@@ -1,10 +1,172 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{modules/layout :: html(content = ~{::content})}">
   <th:block th:fragment="content">
-    <ul>
-      <li th:each="post : ${posts.items}">
-        <a th:text="${post.spec.title}" th:href="${post.status.permalink}"></a>
-      </li>
-    </ul>
+    <!-- hero -->
+    <section th:if="${theme.config.home.heroShow}" class="hero is-fullheight is-default is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            <div class="column is-5 is-offset-1 landing-caption">
+              <h1 class="title is-1 is-bold is-spaced" th:text="${theme.config.home.heroAttribute.title}">
+              </h1>
+              <h2 class="subtitle is-5 is-muted" th:text="${theme.config.home.heroAttribute.desc}">
+              </h2>
+              <p th:if="${theme.config.home.heroAttribute.showBtn}">
+                <a class="button cta rounded primary-btn raised" th:text="${theme.config.home.heroAttribute.btnName}" th:href="${theme.config.home.heroAttribute.btnHref}">
+                </a>
+              </p>
+            </div>
+            <div class="column is-5 is-offset-1">
+              <figure class="image is-4by3">
+                <img th:src="${theme.config.home.heroAttribute.bgImg}" alt="Description">
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-foot mb-20" th:if="${theme.config.home.heroAttribute.showFoot}">
+        <div class="container">
+          <div class="tabs is-centered">
+            <ul th:with="footItems = ${theme.config.home.heroAttribute.footList}">
+              <li th:each="item : ${footItems}">
+                <a th:href="${item.href}">
+                  <img th:src="${item.icon}" alt="" class="partner-logo">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 特性 -->
+    <section th:if="${theme.config.home.featureShow}" class="section section-feature-grey is-medium" id="section1">
+      <div class="container">
+        <div class="title-wrapper has-text-centered">
+          <h2 class="title is-2" th:text="${theme.config.home.featureAttribute.title}"></h2>
+          <h3 class="subtitle is-5 is-muted" th:text="${theme.config.home.featureAttribute.desc}"></h3>
+          <div class="divider is-centered"></div>
+        </div>
+    
+        <div class="content-wrapper">
+          <div class="columns" th:with="featureList = ${theme.config.home.featureAttribute.featureList}">
+            <div class="column is-one-third" th:each="featureItem : ${featureList}">
+              <div class="feature-card is-bordered has-text-centered revealOnScroll delay-1 animated fadeInLeft"
+                data-animation="fadeInLeft">
+                <div class="card-title">
+                  <h4 th:text="${featureItem.title}"></h4>
+                </div>
+                <div class="card-icon"><img th:src="${featureItem.icon}"></div>
+                <div class="card-text">
+                  <p th:text="${featureItem.desc}"></p>
+                </div>
+                <div class="card-action">
+                  <a th:href="${featureItem.btnHref}" class="button btn-align-md accent-btn raised" th:text="${featureItem.btnName}"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 我们的优势 -->
+    <section class="section is-medium" id="section2" th:if="${theme.config.home.advantageShow}">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-centered-tablet-portrait">
+            <h1 class="title section-title" th:text="${theme.config.home.advantageAttribute.title}"></h1>
+            <h3 class="subtitle is-5 is-muted" th:text="${theme.config.home.advantageAttribute.desc}"></h3>
+            <div class="divider"></div>
+          </div>
+          <div class="column is-7 mt-60" th:with="advantageList = ${theme.config.home.advantageAttribute.advantageList}">
+            <article class="media icon-box" th:each="advantage : ${advantageList}">
+              <figure class="media-left">
+                <p class="image"><img th:src="${advantage.icon}"></p>
+              </figure>
+              <div class="media-content mt-50">
+                <div class="content">
+                  <p><span class="icon-box-title" th:text="${advantage.title}"></span>
+                    <span class="icon-box-text" th:text="${advantage.desc}"></span>
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 数据块 -->
+    <section class="section section-feature-grey is-medium" id="section3" th:if="${theme.config.home.datablockShow}">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-10 is-offset-1">
+            <div class="has-text-centered"><img class="pushed-image"
+                th:src="${theme.config.home.datablockAttribute.icon}">
+            </div>
+          </div>
+        </div>
+        <div class="title-wrapper has-text-centered">
+          <h2 class="title is-2" th:text="${theme.config.home.datablockAttribute.title}"></h2>
+          <h3 class="subtitle is-5 is-muted" th:text="${theme.config.home.datablockAttribute.desc}"></h3>
+        </div>
+        <p class="has-text-centered mt-20">
+          <a class="button cta is-large rounded secondary-btn raised" th:href="${theme.config.home.datablockAttribute.btnHref}" th:text="${theme.config.home.datablockAttribute.btnName}"></a>
+        </p>
+      </div>
+    </section>
+    
+    <!-- 人物评价或者团队介绍 -->
+    <section class="section is-medium section-secondary" id="section4" th:if="${theme.config.home.commentShow}">
+      <div class="container">
+        <div class="title-wrapper has-text-centered">
+          <h2 class="title is-2 light-text is-spaced" th:text="${theme.config.home.commentAttribute.title}"></h2>
+          <h3 class="subtitle is-5 light-text" th:text="${theme.config.home.commentAttribute.desc}"></h3>
+        </div>
+        <div class="content-wrapper">
+          <div class="columns is-vcentered" th:with="commentList=${theme.config.home.commentAttribute.commentList}">
+            <div class="column" th:each="comment : ${commentList}">
+              <figure class="testimonial">
+                <blockquote th:text="${comment.comment}"></blockquote>
+                <div class="author">
+                  <img th:src="${comment.avatar}" alt="">
+                  <h5 th:text="${comment.name}"></h5><span th:text="${comment.position}"></span>
+                </div>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 联系表单 -->
+    <section class="section section-light-grey is-medium" id="section5" th:if="${theme.config.home.contactShow}">
+      <div class="container">
+        <!-- <div class="title-wrapper has-text-centered">
+          <h2 class="title is-2 is-spaced">联系我们</h2>
+          <h3 class="subtitle is-5 is-muted">我们可以帮助你们</h3>
+          <div class="divider is-centered"></div>
+        </div>
+        <div class="content-wrapper">
+          <div class="columns">
+            <div class="column is-6 is-offset-3">
+              <form>
+                <div class="columns is-multiline">
+                  <div class="column is-6"><input class="input is-medium" name="name" type="text" placeholder="你的名字">
+                  </div>
+                  <div class="column is-6"><input class="input is-medium" name="email" type="email" placeholder="你的邮箱">
+                  </div>
+                  <div class="column is-12"><textarea class="textarea" name="message" rows="10"
+                      placeholder="你的诉求"></textarea></div>
+                  <div class="form-footer has-text-centered mt-10"><button
+                      class="button cta is-large primary-btn raised is-clear">提交</button></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div> -->
+        <halo-contact-form th:id="${theme.config.home.contactAttribute.contactId}"></halo-contact-form>
+      </div>
+    </section>
   </th:block>
 </html>

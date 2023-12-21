@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{modules/layout :: html(content = ~{::content})}">
+<th:block th:fragment="content">
+  <div class="content">
+    <div>
+      <h2 style="display: flex;font-size: 1.5rem;">
+        <i class="iconify-ri-archive-2-line iconify" style="margin: auto .125rem auto 0;"></i>
+        <th:block th:text="${category.spec.displayName}"></th:block>
+      </h2>
+
+      <div class="columns">
+        <div th:each="post : ${posts.items}" class="column">
+            <a th:href="${post.status.permalink}">
+              <img th:unless="${#strings.isEmpty(post.spec.cover)}" th:src="${post.spec.cover}" />
+              <img th:if="${#strings.isEmpty(post.spec.cover)}" th:src="@{/assets/images/post_empty.svg}" />
+            </a>
+            <div class="mt-1 flex" style="flex-wrap: nowrap;gap: .125rem;padding-top: .25rem;">
+              <div th:each="tag,tagStat : ${post.tags}" th:if="${tagStat.index<3}" class="flex" style="background-color: antiquewhite; padding: 0 0.25rem; margin: 0 .125rem; border-radius: .25rem;">
+                <a th:href="${tag.status.permalink}" class="h-center">
+                  <span th:text="${tag.spec.displayName}"></span>
+                </a>
+              </div>
+            </div>
+            <div class="mt-1" style="font-size:1rem;font-weight: 700;">
+              <a th:href="${post.status.permalink}">
+                <span th:text="${post.spec.title}"></span>
+              </a>
+            </div>
+            <div class="mt-1 flex" style="justify-content: space-between;font-size: .75rem;">
+              <div class="flex gap-1">
+                <i class="iconify iconify-time h-center"></i>
+                <span th:text="${#dates.format(post.spec.publishTime,'yyyy-MM-dd HH:mm:ss')}"></span>
+              </div>
+              <div class="flex gap-1">
+                <i class="iconify iconify-ph-eye-light h-center"></i>
+                <span th:text="${post.stats.visit}"></span>
+                <i class="iconify iconify-heart h-center"></i>
+                <span th:text="${post.stats.upvote}"></span>
+                <i class="iconify iconify-comment h-center"></i>
+                <span th:text="${post.stats.comment}"></span>
+              </div>
+            </div>
+        </div>
+      </div>
+  
+      <div class="page" th:if="${posts.hasPrevious()} or ${posts.hasNext()}">
+        <div>
+          <a class="left" th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">
+            <i class="iconify-ri-arrow-left-line iconify"></i>
+            上一页
+          </a>
+        </div>
+        <div>
+          <a class="right" th:if="${posts.hasNext()}" th:href="@{${posts.nextUrl}}">
+            下一页
+            <i class="iconify-ri-arrow-right-line iconify"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+</html>

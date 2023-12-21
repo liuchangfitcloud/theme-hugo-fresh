@@ -1,5 +1,14 @@
-import "./styles/main.css";
+// import "./scss/core.scss";
+import "./css/gogle.css";
+import "./css/core.css";
 
-export function count(x: number, y: number) {
-  return x + y;
-}
+
+// add nav link click event
+window.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".navbar-link").forEach((nav:Element) => {
+    nav.addEventListener("click", function () {
+      const dropdown = nav.parentNode?.querySelector(".navbar-dropdown");
+      dropdown?.classList.toggle('show')
+    })
+  })
+})

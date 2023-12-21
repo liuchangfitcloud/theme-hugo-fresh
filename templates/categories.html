@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{modules/layout :: html(content = ~{::content})}">
+<th:block th:fragment="content">
+  <div class="content">
+    <div>
+      <h2 style="display: flex;font-size: 1.5rem;">
+        <i class="iconify-ri-archive-2-line iconify" style="margin: auto .125rem auto 0;"></i> 分类
+      </h2>
+      <div class="categorie-container">
+        <th:block th:with="categories = ${categoryFinder.listAsTree()}">
+          <a th:each="categorie : ${categories}" th:href="${categorie.status.permalink}">
+            <span th:text="${categorie.spec.displayName}"></span>
+            <span th:text="${categorie.status.visiblePostCount}"></span>
+          </a>
+        </th:block>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+</html>
