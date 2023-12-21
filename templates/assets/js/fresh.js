@@ -23,6 +23,12 @@ $(document).ready(function(){
         $('.menu-icon-wrapper').toggleClass('open');
         $('.sidebar').toggleClass('is-active');
     });
+  
+  $('.navbar-link').on('click', function (e) {
+    const nav = e.target;
+    const dropdown = nav.parentNode?.querySelector(".navbar-dropdown");
+    dropdown?.classList.toggle('show')
+  });
 
     //Close sidebar
     $('.sidebar-close').on("click", function() {

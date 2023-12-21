@@ -6,7 +6,7 @@
         <div>
           <h1 th:text="${post.spec.title}"></h1>
         </div>
-        <div class="flex" style="padding: 1rem 0;font-size: .875rem;">
+        <div class="flex" style="padding: 1rem 0;font-size: .875rem;color: #999;">
           <i class="iconify iconify-user" style="margin: auto .25rem auto 0;"></i>
           <span th:text="${post.spec.owner}" style="padding: 0 1rem 0 0;"></span>
           <i class="iconify iconify-ph-eye-light" style="margin: auto .25rem auto 0;"></i>
@@ -21,14 +21,14 @@
         <div>
           <article th:utext="${post.content.content}"></article>
         </div>
-        <div th:with="postCursor = ${postFinder.cursor(post.metadata.name)}" style="padding: 2rem 0;display: flex; justify-content: space-between;">
+        <div th:with="postCursor = ${postFinder.cursor(post.metadata.name)}" class="content-bottom">
           <div>
-            <a th:if="${postCursor.hasPrevious()}" th:href="@{${postCursor.previous.status.permalink}}" style="color:currentColor">
+            <a th:if="${postCursor.hasPrevious()}" th:href="@{${postCursor.previous.status.permalink}}">
               << <span th:text="${postCursor.previous.spec.title}"></span>
             </a>
           </div>
          <div>
-          <a th:if="${postCursor.hasNext()}" th:href="@{${postCursor.next.status.permalink}}" style="color:currentColor">
+          <a th:if="${postCursor.hasNext()}" th:href="@{${postCursor.next.status.permalink}}">
             <span th:text="${postCursor.next.spec.title}"></span> >>
           </a>
          </div>

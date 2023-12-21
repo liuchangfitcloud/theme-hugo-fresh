@@ -10,7 +10,7 @@
     <link th:if="${#strings.isEmpty(site.logo)}" th:href="@{/assets/images/favicon.png}" rel="icon">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/dist/style.css}" href="assets/dist/style.css">
     <!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/css/icons.css}" href="assets/css/icons.css"> -->
-    <script th:src="@{/assets/dist/main.iife.js}"></script>
+    <!-- <script th:src="@{/assets/dist/main.iife.js}"></script> -->
     <script th:src="@{/assets/js/jquery.min.js}"></script>
     <script th:src="@{/assets/js/fresh.js}"></script>
     <script th:src="@{/assets/js/jquery.panelslider.min.js}"></script>
@@ -39,21 +39,24 @@
           </div>
           <div id="navbar-menu" class="navbar-menu is-static">
             <div class="navbar-end" th:with="menu = ${menuFinder.getPrimary()}">
-              <div class="navbar-item has-dropdown is-hoverable" th:with="menuItems = ${menu.menuItems}">
+              <th:block th:with="menuItems = ${menu.menuItems}">
                 <th:block th:each="menuItem : ${menuItems}">
-                  <a th:if="${#arrays.isEmpty(menuItem.spec.children)}" th:href="@{${menuItem.status.href}}" class="navbar-item is-secondary"
-                    th:text="${menuItem.status.displayName}" th:target="${menuItem.spec.target?.value}">
+                  <a th:if="${#lists.isEmpty(menuItem.children)}" th:href="@{${menuItem.status.href}}"
+                    class="navbar-item is-secondary" th:text="${menuItem.status.displayName}"
+                    th:target="${menuItem.spec.target?.value}">
                   </a>
-                  <a th:unless="${#arrays.isEmpty(menuItem.spec.children)}" class="navbar-link" th:text="${menuItem.status.displayName}"></a>
-                  <div th:unless="${#arrays.isEmpty(menuItem.spec.children)}" th:with="childMenus = ${menuItem.children}" class="navbar-dropdown">
-                    <th:block th:each="childItem : ${childMenus}">
-                      <a th:href="@{${childItem.status.href}}" th:text="${childItem.status.displayName}"
-                        th:target="${childItem.spec.target?.value}" class="navbar-item">
-                      </a>
-                    </th:block>
+                  <div th:unless="${#lists.isEmpty(menuItem.children)}" class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" th:text="${menuItem.status.displayName}"></a>
+                    <div th:with="childMenus = ${menuItem.children}" class="navbar-dropdown">
+                      <th:block th:each="childItem : ${childMenus}">
+                        <a th:href="@{${childItem.status.href}}" th:text="${childItem.status.displayName}"
+                          th:target="${childItem.spec.target?.value}" class="navbar-item">
+                        </a>
+                      </th:block>
+                    </div>
                   </div>
                 </th:block>
-              </div>
+              </th:block>
             </div>
           </div>
         </div>
@@ -75,24 +78,24 @@
     
           <div id="cloned-navbar-menu" class="navbar-menu is-fixed">
             <div class="navbar-end" th:with="menu = ${menuFinder.getPrimary()}">
-              <div class="navbar-item has-dropdown is-hoverable" th:with="menuItems = ${menu.menuItems}">
+              <th:block th:with="menuItems = ${menu.menuItems}">
                 <th:block th:each="menuItem : ${menuItems}">
-                  <a th:if="${#arrays.isEmpty(menuItem.spec.children)}" th:href="@{${menuItem.status.href}}"
+                  <a th:if="${#lists.isEmpty(menuItem.children)}" th:href="@{${menuItem.status.href}}"
                     class="navbar-item is-secondary" th:text="${menuItem.status.displayName}"
                     th:target="${menuItem.spec.target?.value}">
                   </a>
-                  <a th:unless="${#arrays.isEmpty(menuItem.spec.children)}" class="navbar-link"
-                    th:text="${menuItem.status.displayName}"></a>
-                  <div th:unless="${#arrays.isEmpty(menuItem.spec.children)}" th:with="childMenus = ${menuItem.children}"
-                    class="navbar-dropdown">
-                    <th:block th:each="childItem : ${childMenus}">
-                      <a th:href="@{${childItem.status.href}}" th:text="${childItem.status.displayName}"
-                        th:target="${childItem.spec.target?.value}" class="navbar-item">
-                      </a>
-                    </th:block>
+                  <div th:unless="${#lists.isEmpty(menuItem.children)}" class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" th:text="${menuItem.status.displayName}"></a>
+                    <div th:with="childMenus = ${menuItem.children}" class="navbar-dropdown">
+                      <th:block th:each="childItem : ${childMenus}">
+                        <a th:href="@{${childItem.status.href}}" th:text="${childItem.status.displayName}"
+                          th:target="${childItem.spec.target?.value}" class="navbar-item">
+                        </a>
+                      </th:block>
+                    </div>
                   </div>
                 </th:block>
-              </div>
+              </th:block>
             </div>
           </div>
         </div>

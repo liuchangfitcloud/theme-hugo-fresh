@@ -4,11 +4,11 @@ import "./css/core.css";
 
 
 // add nav link click event
-window.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".navbar-link").forEach((nav:Element) => {
-    nav.addEventListener("click", function () {
-      const dropdown = nav.parentNode?.querySelector(".navbar-dropdown");
-      dropdown?.classList.toggle('show')
-    })
-  })
-})
+// window.addEventListener("DOMContentLoaded", function () {
+//   document.querySelectorAll(".navbar-link").forEach((nav:Element) => {
+//     nav.addEventListener("click", function () {
+//       const dropdown = nav.parentNode?.querySelector(".navbar-dropdown");
+//       dropdown?.classList.toggle('show')
+//     })
+//   })
+// })
