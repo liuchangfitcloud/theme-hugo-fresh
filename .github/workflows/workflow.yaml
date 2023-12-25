@@ -55,7 +55,14 @@ jobs:
           pnpm build
       - name: zip theme file
         run: |
-          zip -q -r theme-hugo-fresh.zip templates/ settings.yaml theme.yaml    
+          zip -q -r theme-hugo-fresh.zip templates/ settings.yaml theme.yaml
+      - name: Archive theme-hugo-fresh theme zip file
+        uses: actions/upload-artifact@v2
+        with:
+          name: theme-hugo-fresh
+          path: |
+            ./*.zip
+          retention-days: 1        
 
   github-release:
     runs-on: ubuntu-latest
