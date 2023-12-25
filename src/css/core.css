@@ -7647,10 +7647,12 @@ label.panel-block:hover {
   align-items: stretch;
   display: flex;
   font-size: 1rem;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  /* justify-content: space-between;
   overflow: hidden;
   overflow-x: auto;
-  white-space: nowrap
+  white-space: nowrap */
 }
 
 .tabs a {
@@ -7686,8 +7688,9 @@ label.panel-block:hover {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   display: flex;
-  flex-grow: 1;
-  flex-shrink: 0;
+  flex-wrap: wrap;
+  /* flex-grow: 1; */
+  /* flex-shrink: 0; */
   justify-content: flex-start
 }
 

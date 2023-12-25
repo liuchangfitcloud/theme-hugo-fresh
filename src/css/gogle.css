@@ -179,7 +179,7 @@
 
 .content .columns .column > a > img{
   width: 100%;
-  max-height: 24rem;
+  max-height: 16rem;
 }
 
 .content .page{
@@ -217,6 +217,21 @@
   color: #f39200;
 }
 
+
+.content .icon-box-text{
+  flex-wrap: wrap;
+}
+
+.content-wrapper .media.icon-box{
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.media.icon-box .media-content .content p .icon-box-text{
+  padding-top: 1rem;
+}
 
 @media screen and (min-width:768px){
   .content article {
