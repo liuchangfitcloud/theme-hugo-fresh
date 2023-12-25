@@ -233,6 +233,25 @@
   padding-top: 1rem;
 }
 
+.advantage.title-wrapper{
+  display: flex;
+  justify-content: center;
+  max-width: none;
+  padding: 0rem 5rem;
+  flex-direction: column;
+}
+
+
+.content-wrapper{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.content-wrapper .icon-box-text{
+  white-space:normal;
+}
+
 @media screen and (min-width:768px){
   .content article {
     width: 55vw;
