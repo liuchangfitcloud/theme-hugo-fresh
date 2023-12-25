@@ -55,14 +55,15 @@ jobs:
           pnpm build
       - name: zip theme file
         run: |
-          zip -q -r theme-hugo-fresh.zip templates/ settings.yaml theme.yaml
-          chmod -R 755 theme-hugo-fresh.zip
+          mkdir -p build
+          chmod -R 755 build
+          zip -q -r build/theme-hugo-fresh.zip templates/ settings.yaml theme.yaml
       - name: Archive theme-hugo-fresh theme zip file
         uses: actions/upload-artifact@v2
         with:
           name: theme-hugo-fresh
           path: |
-            ./*.zip
+            build/*.zip
           retention-days: 1        
 
   github-release:
@@ -74,11 +75,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: theme-hugo-fresh
-          path: /
+          path: build/
       - name: Get Name of Artifact
         id: get_artifact
         run: |
-          ARTIFACT_PATHNAME=$(ls *.zip | head -n 1)
+          ARTIFACT_PATHNAME=$(ls build/*.zip | head -n 1)
           ARTIFACT_NAME=$(basename ${ARTIFACT_PATHNAME})
           echo "Artifact pathname: ${ARTIFACT_PATHNAME}"
           echo "Artifact name: ${ARTIFACT_NAME}"
